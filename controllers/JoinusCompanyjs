@@ -1,0 +1,32 @@
+// JoinusCompany.js
+
+// Import any required modules
+const handleJoinusCompany = (req, res, db) => {
+    const { name, email, phone, website, city, description, image_url } = req.body;
+
+    // Here you can perform any validation or sanitation of the input data if needed
+
+    // Insert the data into the "eventorganizers" table
+    db('eventorganizers')
+        .returning('*')
+        .insert({
+            name: name,
+            email: email,
+            phone: phone,
+            website: website,
+            city: city,
+            description: description,
+            image_url: image_url,
+        })
+        .then(data => {
+            res.status(200).json({ message: 'Event organizer added successfully', organizer: data[0] });
+        })
+        .catch(error => {
+            console.error('Error adding event organizer:', error);
+            res.status(500).json({ error: 'Failed to add event organizer' });
+        });
+};
+
+module.exports = {
+    handleJoinusCompany: handleJoinusCompany
+};
