@@ -21,11 +21,15 @@ app.use(cors());
 const db = knex({
     client: 'pg',
     connection: {
-        host: '127.0.0.1',
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false,
+        },
+        host: process.env.DATABASE_URL,
         port: 5432,
-        user: 'postgres',
-        password: 'test',
-        database: 'event_resource',
+        user: process.env.DATABASE_USER,
+        password: process.env.DATABASE_PW,
+        database: process.env.DATABASE_DB,
     },
 });
 
